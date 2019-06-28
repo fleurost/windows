@@ -1,0 +1,97 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Sample access control list.
+ */
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule NetworkAdminToPetugas {
+    description: "Grant business network administrators full access to Petugas"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hospital.record.Petugas"
+    action: ALLOW
+}
+
+rule NetworkAdminToDokter {
+    description: "Grant business network administrators full access to Petugas"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hospital.record.Dokter"
+    action: ALLOW
+}
+
+rule PetugasToDokter {
+    description: "Grant business network Petugas read access to Dokter"
+    participant: "org.hospital.record.Petugas"
+    operation: READ
+    resource: "org.hospital.record.Dokter"
+    action: ALLOW
+}
+
+rule PetugasToData {
+    description: "Grant business network Petugas full access to Data"
+    participant: "org.hospital.record.Petugas"
+    operation: CREATE,READ,UPDATE
+    resource: "org.hospital.record.DataMedis"
+    action: ALLOW
+}
+
+rule PetugasToCheckIntegrity {
+    description: "Grant business network Petugas full access to Data"
+    participant: "org.hospital.record.Petugas"
+    operation: CREATE
+    resource: "org.hospital.record.CheckIntegrity"
+    action: ALLOW
+}
+
+rule PetugasToPasien {
+    description: "Grant business network Petugas full access to Pasien"
+    participant: "org.hospital.record.Petugas"
+    operation: ALL
+    resource: "org.hospital.record.Pasien"
+    action: ALLOW
+}
+
+rule DokterToData {
+    description: "Grant business network Dokter read access to Data"
+    participant: "org.hospital.record.Dokter"
+    operation: READ
+    resource: "org.hospital.record.DataMedis"
+    action: ALLOW
+}
+
+rule DokterToPasien {
+    description: "Grant business network Dokter read access to Pasien"
+    participant: "org.hospital.record.Dokter"
+    operation: READ
+    resource: "org.hospital.record.Pasien"
+    action: ALLOW
+}
